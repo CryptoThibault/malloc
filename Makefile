@@ -7,7 +7,7 @@ OBJ_DIR = obj
 INC_DIR = includes
 LIBFT_DIR = libft
 
-SRC = malloc.c free.c realloc.c
+SRC = malloc.c free.c realloc.c malloc_large.c zoneset.c show_alloc_mem.c 
 SRCS = $(addprefix $(SRC_DIR)/,$(SRC))
 OBJS = $(addprefix $(OBJ_DIR)/,$(SRC:.c=.o))
 
@@ -43,7 +43,7 @@ fclean: clean
 
 re: fclean all
 
-main: main.c src/show_alloc_mem.c $(NAME)
-	$(CC) $(CFLAGS) -I $(INC_DIR) -I $(LIBFT_DIR) main.c src/show_alloc_mem.c -L. -lft_malloc_$(HOSTTYPE) -o main
+main: main.c $(NAME)
+	$(CC) $(CFLAGS) -I $(INC_DIR) -I $(LIBFT_DIR) main.c -L. -lft_malloc_$(HOSTTYPE) -o main
 
 .PHONY: all clean fclean re

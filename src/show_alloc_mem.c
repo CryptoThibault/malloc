@@ -1,31 +1,47 @@
 #include "libft_malloc.h"
 #include <stdio.h>
 
-void show_alloc_mem() {
-    // int n = 64;
-    // int m = 1024;
-    // int N = 6400;
-    // int M = 102400;
+static size_t show_blocks_mem(t_block *b) {
+    if (!b)
+        return 0;
 
-    // printf("TINY : %p\n");
-    // while ()
-    //     printf("%p - %p : %d bytes\n");
-    // printf("SMALL : %p\n");
-    // while ()
-    //     printf("%p - %p : %d bytes\n");
-    // printf("LARGE : %p\n");
-    // while ()
-    //     printf("%p - %p : %d bytes\n");
-    // printf("Total : %d bytes\n");
+    t_block *head = b;
+    t_block *tail = NULL;
+    size_t total = 0;
 
-    printf("[Show allocation memory]\n");
-    t_block *current = head;
-    while (current)
-    {
-        printf("Bloc: %p | size: %zu | %s\n",
-               (char *)current + sizeof(t_block),
-               current->size,
-               current->free ? "free" : "used");
-        current = current->next;
+    while (b) {
+        total += b->size;
+        tail = b;
+        b = b->next;
     }
+
+    printf("%p - %p : %zu bytes\n", (void *)head, (void *)tail, total);
+    return total;
+}
+
+void show_alloc_mem() {
+    size_t total = 0;
+    t_zone *z = NULL;
+
+    if (tiny) {
+        printf("TINY : %p\n", (void *)tiny);
+        z = tiny;
+        while (z) {
+            total += show_blocks_mem(z->blocks);
+            z = z->next;
+        }
+    }
+    if (small) {
+        printf("SMALL : %p\n", (void *)small);
+        z = small;
+        while (z) {
+            total += show_blocks_mem(z->blocks);
+            z = z->next;
+        }
+    }
+    if (large) {
+        printf("LARGE : %p\n", (void *)large);
+            total += show_blocks_mem(large);
+    }
+    printf("Total : %zu bytes\n", total);
 }

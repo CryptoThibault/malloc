@@ -1,43 +1,54 @@
 #include "libft_malloc.h"
 
-t_block *head = NULL;
+t_zone *tiny = NULL;
+t_zone *small = NULL;
+t_block *large = NULL;
 
 void *malloc(size_t size) {
-    t_block *current = head;
-    t_block *last = NULL;
-    while (current) {
-        last = current;
-        if (current->free == 1 && current->size >= size) {
-            current->free = 0;
-            return (void *)((char *)current + sizeof(t_block));
-        }
-        current = current->next;
+    t_zone *zone = NULL;
+    size_t size_zone;
+
+    if (size <= TINY_MAX) {
+        zone = tiny;
+        size_zone = TINY_MAX;
+    } else if (size <= SMALL_MAX) {
+        zone = small;
+        size_zone = SMALL_MAX;
+    } else {
+        return malloc_large(size);
     }
 
-    size_t total_size = size + sizeof(t_block);
-    size_t pagesize = sysconf(_SC_PAGESIZE);
-    if (total_size % pagesize != 0)
-        total_size = ((total_size / pagesize) + 1) * pagesize;
-    void *ptr = mmap(
-        NULL,
-        total_size,
-        PROT_READ | PROT_WRITE,
-        MAP_ANONYMOUS | MAP_PRIVATE,
-        -1,
-        0
-    );
+    t_zone *z = zone;
+    while (z) {
+        t_block *b = z->blocks;
+        while (b) {
+            if (b->free) {
+                b->free = 0;
+                return (void *)((char *)b + sizeof(t_block));
+            }
+            b = b->next;
+        }
+        z = z->next;
+    }
 
-    if (ptr == MAP_FAILED)
+    t_zone *new_zone = zoneset(size_zone, BLOCKS_PER_ZONE);
+    if (!new_zone)
         return NULL;
 
-    t_block *b = (t_block *)ptr;
-    b->size = size;
-    b->free = 0;
-    b->next = NULL;
+    if (!zone) {
+        if (size <= TINY_MAX)
+            tiny = new_zone;
+        else
+            small = new_zone;
+    } else {
+        t_zone *last = zone;
+        while (last->next)
+            last = last->next;
+        last->next = new_zone;
+    }
 
-    if (head == NULL)
-        head = b;
-    else
-        last->next = b;
-    return (void *)((char *)b + sizeof(t_block));
+    t_block *block = new_zone->blocks;
+    block->free = 0;
+
+    return (void *)((char *)block + sizeof(t_block));
 }
