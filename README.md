@@ -38,4 +38,5 @@ make
 ## Run
 ```sh
 LD_LIBRARY_PATH=. LD_PRELOAD=./libft_malloc.so ./main
+LD_LIBRARY_PATH=. LD_PRELOAD=./libft_malloc.so ./tester | grep "128 bytes" | wc -l
 ```

@@ -25,9 +25,13 @@ typedef struct s_zone {
     struct s_zone *next;
 } t_zone;
 
-extern t_zone *tiny;
-extern t_zone *small;
-extern t_block *large;
+typedef struct s_malloc_data {
+    t_zone *tiny;
+    t_zone *small;
+    t_block *large;
+} t_malloc_data;
+
+extern t_malloc_data g_malloc;
 
 void free(void *ptr);
 void *malloc(size_t size);

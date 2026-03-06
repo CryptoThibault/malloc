@@ -1,7 +1,7 @@
 #include "libft_malloc.h"
 
 void *malloc_large(size_t size) {
-    t_block *current = large;
+    t_block *current = g_malloc.large;
     t_block *last = NULL;
 
     while (current) {
@@ -29,8 +29,8 @@ void *malloc_large(size_t size) {
     b->free = 0;
     b->next = NULL;
 
-    if (large == NULL)
-        large = b;
+    if (g_malloc.large == NULL)
+        g_malloc.large = b;
     else
         last->next = b;
 

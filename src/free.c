@@ -11,7 +11,7 @@ void free(void *ptr) {
         return;
     }
 
-    t_block *current = large;
+    t_block *current = g_malloc.large;
     t_block *prev = NULL;
 
     while (current && current != block) {
@@ -22,7 +22,7 @@ void free(void *ptr) {
         return;
 
     if (!prev)
-        large = current->next;
+        g_malloc.large = current->next;
     else
         prev->next = current->next;
 

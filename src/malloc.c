@@ -1,17 +1,15 @@
 #include "libft_malloc.h"
 
-t_zone *tiny = NULL;
-t_zone *small = NULL;
-t_block *large = NULL;
+t_malloc_data g_malloc = {NULL, NULL, NULL};
 
 void *malloc(size_t size) {
     int zone_type = get_zone_type(size);
     t_zone *zone = NULL;
 
     if (zone_type == TINY)
-        zone = tiny;
+        zone = g_malloc.tiny;
     else if (zone_type == SMALL)
-        zone = small;
+        zone = g_malloc.small;
     else
         return malloc_large(size);
 
@@ -34,9 +32,9 @@ void *malloc(size_t size) {
 
     if (!zone) {
         if (size <= TINY_MAX)
-            tiny = new_zone;
+            g_malloc.tiny = new_zone;
         else
-            small = new_zone;
+            g_malloc.small = new_zone;
     } else {
         t_zone *last = zone;
         while (last->next)

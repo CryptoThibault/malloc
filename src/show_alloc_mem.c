@@ -22,25 +22,25 @@ void show_alloc_mem() {
     size_t total = 0;
     t_zone *z = NULL;
 
-    if (tiny) {
-        printf("TINY : %p\n", (void *)tiny);
-        z = tiny;
+    if (g_malloc.tiny) {
+        printf("TINY : %p\n", (void *)g_malloc.tiny);
+        z = g_malloc.tiny;
         while (z) {
             total += show_blocks_mem(z->blocks);
             z = z->next;
         }
     }
-    if (small) {
-        printf("SMALL : %p\n", (void *)small);
-        z = small;
+    if (g_malloc.small) {
+        printf("SMALL : %p\n", (void *)g_malloc.small);
+        z = g_malloc.small;
         while (z) {
             total += show_blocks_mem(z->blocks);
             z = z->next;
         }
     }
-    if (large) {
-        printf("LARGE : %p\n", (void *)large);
-        total += show_blocks_mem(large);
+    if (g_malloc.large) {
+        printf("LARGE : %p\n", (void *)g_malloc.large);
+        total += show_blocks_mem(g_malloc.large);
     }
     printf("Total : %zu bytes\n", total);
 }

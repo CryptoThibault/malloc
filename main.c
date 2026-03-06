@@ -57,3 +57,16 @@ int main(void) {
 
     return 0;
 }
+
+// int main() {
+//     void *p[105];
+
+//     for (int i = 0; i < 105; i++)
+//         p[i] = malloc(10);
+
+//     show_alloc_mem();
+//     for (int i = 10; i < 105; i++)
+//         free(p[i]);
+
+//     return 0;
+// }
