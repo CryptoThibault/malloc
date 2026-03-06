@@ -3,10 +3,12 @@
 void *malloc_large(size_t size) {
     t_block *current = large;
     t_block *last = NULL;
+
     while (current) {
         last = current;
         if (current->free == 1 && current->size >= size) {
             current->free = 0;
+            current->size = size;
             return (void *)((char *)current + sizeof(t_block));
         }
         current = current->next;
@@ -16,15 +18,9 @@ void *malloc_large(size_t size) {
     size_t pagesize = sysconf(_SC_PAGESIZE);
     if (total_size % pagesize != 0)
         total_size = ((total_size / pagesize) + 1) * pagesize;
-    void *ptr = mmap(
-        NULL,
-        total_size,
-        PROT_READ | PROT_WRITE,
-        MAP_ANONYMOUS | MAP_PRIVATE,
-        -1,
-        0
-    );
 
+    void *ptr = mmap(NULL, total_size, PROT_READ | PROT_WRITE,
+        MAP_ANONYMOUS | MAP_PRIVATE, -1, 0);
     if (ptr == MAP_FAILED)
         return NULL;
 
@@ -37,5 +33,6 @@ void *malloc_large(size_t size) {
         large = b;
     else
         last->next = b;
+
     return (void *)((char *)b + sizeof(t_block));
 }

@@ -6,7 +6,7 @@ void free(void *ptr) {
 
     t_block *block = (t_block *)((char *)ptr - sizeof(t_block));
 
-    if (block->size <= SMALL_MAX) {
+    if (get_zone_type(block->size) != LARGE) {
         block->free = 1;
         return;
     }

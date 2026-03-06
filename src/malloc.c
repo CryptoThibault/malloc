@@ -5,18 +5,15 @@ t_zone *small = NULL;
 t_block *large = NULL;
 
 void *malloc(size_t size) {
+    int zone_type = get_zone_type(size);
     t_zone *zone = NULL;
-    size_t size_zone;
 
-    if (size <= TINY_MAX) {
+    if (zone_type == TINY)
         zone = tiny;
-        size_zone = TINY_MAX;
-    } else if (size <= SMALL_MAX) {
+    else if (zone_type == SMALL)
         zone = small;
-        size_zone = SMALL_MAX;
-    } else {
+    else
         return malloc_large(size);
-    }
 
     t_zone *z = zone;
     while (z) {
@@ -31,7 +28,7 @@ void *malloc(size_t size) {
         z = z->next;
     }
 
-    t_zone *new_zone = zoneset(size_zone, BLOCKS_PER_ZONE);
+    t_zone *new_zone = zoneset((zone_type == TINY ? TINY_MAX : SMALL_MAX), BLOCKS_PER_ZONE);
     if (!new_zone)
         return NULL;
 
