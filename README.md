@@ -33,7 +33,6 @@ The allocator organizes memory into different zones to optimize allocations depe
 ## Build
 ```sh
 make
-make main
 ```
 
 ## Run
