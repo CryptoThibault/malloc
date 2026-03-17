@@ -11,9 +11,6 @@ void *realloc(void *ptr, size_t size) {
 
     t_block *block = (t_block *)((char *)ptr - sizeof(t_block));
 
-    int old_type = get_zone_type(block->size);
-    int new_type = get_zone_type(size);
-
     if (block->size >= size)
         return ptr;
 
@@ -25,15 +22,11 @@ void *realloc(void *ptr, size_t size) {
         return ptr;
     }
 
-    if (old_type != new_type) {
-        void *new_ptr = malloc(size);
-        if (!new_ptr)
-            return NULL;
+    void *new_ptr = malloc(size);
+    if (!new_ptr)
+        return NULL;
 
-        ft_memcpy(new_ptr, ptr, block->size);
-        free(ptr);
-        return new_ptr;
-    }
-
-    return ptr;
+    ft_memcpy(new_ptr, ptr, block->size);
+    free(ptr);
+    return new_ptr;
 }

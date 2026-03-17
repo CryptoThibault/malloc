@@ -2,9 +2,9 @@
 # define LIBFT_MALLOC_H
 
 #include <unistd.h>
-#include <stdio.h>
 #include <stddef.h>
 #include <sys/mman.h>
+#include "libft.h"
 
 # define TINY 1
 # define SMALL 2
@@ -37,7 +37,6 @@ void free(void *ptr);
 void *malloc(size_t size);
 void *malloc_large(size_t size);
 void *realloc(void *ptr, size_t size);
-void *ft_memcpy(void *dst, const void *src, size_t n);
 int get_zone_type(size_t size);
 t_zone *zoneset(size_t size, size_t n);
 void show_alloc_mem();

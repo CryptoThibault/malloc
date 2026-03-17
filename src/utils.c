@@ -1,16 +1,5 @@
 #include "libft_malloc.h"
 
-void *ft_memcpy(void *dest, const void *src, size_t n) {
-	unsigned char		*pdest;
-	const unsigned char	*psrc;
-
-	pdest = dest;
-	psrc = src;
-	while (n--)
-		*pdest++ = *psrc++;
-	return (dest);
-}
-
 int get_zone_type(size_t size) {
     if (size <= TINY_MAX)
         return TINY;
