@@ -29,6 +29,13 @@ The allocator organizes memory into different zones to optimize allocations depe
 
 - **Memory visualization**
   - `show_alloc_mem()` prints all allocated blocks and total allocated memory.
+  - `show_alloc_mem_ex()` adds per-block hex dump (hex + ASCII).
+
+- **Thread-safe allocator**
+  - `malloc`, `free`, `realloc` use a global `pthread_mutex_t`.
+
+- **Coalescence on free**
+  - Adjacent free blocks are merged to reduce fragmentation.
 
 ## Build
 ```sh
@@ -38,5 +45,6 @@ make
 ## Run
 ```sh
 LD_LIBRARY_PATH=. LD_PRELOAD=./libft_malloc.so ./tester
-LD_LIBRARY_PATH=. LD_PRELOAD=./libft_malloc.so ./tester | grep "128 bytes" | wc -l
+LD_LIBRARY_PATH=. LD_PRELOAD=./libft_malloc.so ./tester_bonus
+LD_LIBRARY_PATH=. LD_PRELOAD=./libft_malloc.so ./tester | grep " - " | wc -l
 ```

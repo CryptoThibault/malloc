@@ -8,7 +8,7 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -I $(INC_DIR) -I $(LIBFT_DIR)
 LDFLAGS = -shared
 
-SRC = malloc.c free.c realloc.c malloc_large.c utils.c show_alloc_mem.c 
+SRC = malloc.c free.c realloc.c malloc_large.c zone.c show_alloc_mem.c 
 SRCS = $(addprefix $(SRC_DIR)/,$(SRC))
 OBJS = $(addprefix $(OBJ_DIR)/,$(SRC:.c=.o))
 
@@ -29,6 +29,7 @@ $(NAME): $(OBJS) main.c $(LIBFT)
 	$(CC) $(LDFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
 	ln -sf $(NAME) libft_malloc.so
 	$(CC) $(CFLAGS) main.c $(LIBFT) -L. -lft_malloc_$(HOSTTYPE) -o $(TESTER)
+	$(CC) $(CFLAGS) main_bonus.c $(LIBFT) -L. -lft_malloc_$(HOSTTYPE) -o $(TESTER)_bonus
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(OBJ_DIR)
@@ -39,6 +40,7 @@ clean:
 
 fclean: clean
 	rm -f $(TESTER)
+	rm -f $(TESTER)_thread
 	rm -f libft_malloc.so libft_malloc_*.so
 
 re: fclean all

@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <stddef.h>
 #include <sys/mman.h>
+#include <pthread.h>
 #include "libft.h"
 
 # define TINY 1
@@ -32,13 +33,19 @@ typedef struct s_malloc_data {
 } t_malloc_data;
 
 extern t_malloc_data g_malloc;
+extern pthread_mutex_t g_malloc_mutex;
 
 void free(void *ptr);
 void *malloc(size_t size);
-void *malloc_large(size_t size);
 void *realloc(void *ptr, size_t size);
+
+void *_malloc(size_t size);
+void _free(void *ptr);
+void *_realloc(void *ptr, size_t size);
+void *malloc_large(size_t size);
 int get_zone_type(size_t size);
 t_zone *zoneset(size_t size, size_t n);
 void show_alloc_mem();
+void show_alloc_mem_ex();
 
 #endif

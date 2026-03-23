@@ -18,15 +18,23 @@ t_zone *zoneset(size_t size, size_t n) {
     if (ptr == MAP_FAILED)
         return NULL;
     
-    t_block *block = (t_block *)((char *)ptr + sizeof(t_zone));
-    block->size = size;
-    block->free = 1;
-    block->next = NULL;
-    
     t_zone *zone = (t_zone *)ptr;
     zone->size = total_size;
-    zone->blocks = block;
+    zone->blocks = NULL;
     zone->next = NULL;
+
+    t_block *current = NULL;
+    for (size_t i = 0; i < n; i++) {
+        t_block *block = (t_block *)((char *)ptr + sizeof(t_zone) + i * (sizeof(t_block) + size));
+        block->size = 0;
+        block->free = 1;
+        block->next = NULL;
+        if (!zone->blocks)
+            zone->blocks = block;
+        else
+            current->next = block;
+        current = block;
+    }
 
     return zone;
 }

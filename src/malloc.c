@@ -2,7 +2,11 @@
 
 t_malloc_data g_malloc = {NULL, NULL, NULL};
 
-void *malloc(size_t size) {
+pthread_mutex_t g_malloc_mutex = PTHREAD_MUTEX_INITIALIZER;
+
+void *_malloc(size_t size) {
+    void *ptr = NULL;
+
     int zone_type = get_zone_type(size);
     t_zone *zone = NULL;
 
@@ -19,6 +23,7 @@ void *malloc(size_t size) {
         while (b) {
             if (b->free) {
                 b->free = 0;
+                b->size = size;
                 return (void *)((char *)b + sizeof(t_block));
             }
             b = b->next;
@@ -44,6 +49,18 @@ void *malloc(size_t size) {
 
     t_block *block = new_zone->blocks;
     block->free = 0;
+    block->size = size;
+    ptr = (void *)((char *)block + sizeof(t_block));
 
-    return (void *)((char *)block + sizeof(t_block));
+    return ptr;
+}
+
+void *malloc(size_t size) {
+    void *ptr;
+
+    pthread_mutex_lock(&g_malloc_mutex);
+    ptr = _malloc(size);
+    pthread_mutex_unlock(&g_malloc_mutex);
+
+    return ptr;
 }
