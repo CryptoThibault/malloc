@@ -18,10 +18,11 @@ typedef struct s_block {
     size_t size;
     int free;
     struct s_block *next;
-} t_block;
+} __attribute__((aligned(16))) t_block;
 
 typedef struct s_zone {
     size_t size;
+    size_t block_count;
     t_block *blocks;
     struct s_zone *next;
 } t_zone;
@@ -44,7 +45,8 @@ void _free(void *ptr);
 void *_realloc(void *ptr, size_t size);
 void *malloc_large(size_t size);
 int get_zone_type(size_t size);
-t_zone *zoneset(size_t size, size_t n);
+t_zone *create_zone(size_t size, size_t n);
+t_block *create_block(t_zone *z, size_t size, size_t block_size);
 void show_alloc_mem();
 void show_alloc_mem_ex();
 

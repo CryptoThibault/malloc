@@ -1,6 +1,7 @@
 #include "libft_malloc.h"
 
-static size_t show_blocks_mem(t_block *b) {
+static size_t show_blocks_mem(t_block *b)
+{
     if (!b)
         return 0;
 
@@ -21,7 +22,8 @@ static size_t show_blocks_mem(t_block *b) {
     return total;
 }
 
-void show_alloc_mem() {
+void show_alloc_mem()
+{
     size_t total = 0;
     t_zone *z = NULL;
 
@@ -50,7 +52,8 @@ void show_alloc_mem() {
     ft_printf(" bytes\n");
 }
 
-static void dump_hex(void *ptr, size_t size) {
+static void dump_hex(void *ptr, size_t size)
+{
     unsigned char *data = (unsigned char *)ptr;
     size_t len = size < 16 ? size : 16;
 
@@ -82,7 +85,8 @@ static void dump_hex(void *ptr, size_t size) {
     ft_putchar_fd('\n', 1);
 }
 
-static size_t show_blocks_mem_ex(t_block *b) {
+static size_t show_blocks_mem_ex(t_block *b)
+{
     if (!b)
         return 0;
 
@@ -100,7 +104,8 @@ static size_t show_blocks_mem_ex(t_block *b) {
     return total;
 }
 
-void show_alloc_mem_ex() {
+void show_alloc_mem_ex()
+{
     size_t total = 0;
     t_zone *z = NULL;
 

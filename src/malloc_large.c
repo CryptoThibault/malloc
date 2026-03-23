@@ -1,6 +1,7 @@
 #include "libft_malloc.h"
 
-void *malloc_large(size_t size) {
+void *malloc_large(size_t size)
+{
     t_block *current = g_malloc.large;
     t_block *last = NULL;
 

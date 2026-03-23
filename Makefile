@@ -8,7 +8,7 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -I $(INC_DIR) -I $(LIBFT_DIR)
 LDFLAGS = -shared
 
-SRC = malloc.c free.c realloc.c malloc_large.c zone.c show_alloc_mem.c 
+SRC = malloc.c free.c realloc.c malloc_large.c zone.c block.c show_alloc_mem.c 
 SRCS = $(addprefix $(SRC_DIR)/,$(SRC))
 OBJS = $(addprefix $(OBJ_DIR)/,$(SRC:.c=.o))
 

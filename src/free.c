@@ -1,6 +1,7 @@
 #include "libft_malloc.h"
 
-static t_block *find_prev_block(t_zone *zone, t_block *block) {
+static t_block *find_prev_block(t_zone *zone, t_block *block)
+{
     if (!zone || !zone->blocks)
         return NULL;
     t_block *current = zone->blocks;
@@ -10,7 +11,8 @@ static t_block *find_prev_block(t_zone *zone, t_block *block) {
     return current;
 }
 
-void _free(void *ptr) {
+void _free(void *ptr)
+{
     if (!ptr)
         return;
 
@@ -57,7 +59,8 @@ void _free(void *ptr) {
     }
 }
 
-void free(void *ptr) {
+void free(void *ptr)
+{
     pthread_mutex_lock(&g_malloc_mutex);
     _free(ptr);
     pthread_mutex_unlock(&g_malloc_mutex);

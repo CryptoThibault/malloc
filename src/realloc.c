@@ -1,6 +1,7 @@
 #include "libft_malloc.h"
 
-void *_realloc(void *ptr, size_t size) {
+void *_realloc(void *ptr, size_t size)
+{
     if (!ptr)
         return _malloc(size);
 
@@ -44,7 +45,8 @@ void *_realloc(void *ptr, size_t size) {
     return new_ptr;
 }
 
-void *realloc(void *ptr, size_t size) {
+void *realloc(void *ptr, size_t size)
+{
     void *new_ptr;
 
     pthread_mutex_lock(&g_malloc_mutex);

@@ -44,7 +44,7 @@ make
 
 ## Run
 ```sh
-LD_LIBRARY_PATH=. LD_PRELOAD=./libft_malloc.so ./tester
-LD_LIBRARY_PATH=. LD_PRELOAD=./libft_malloc.so ./tester_bonus
-LD_LIBRARY_PATH=. LD_PRELOAD=./libft_malloc.so ./tester | grep " - " | wc -l
+./run_linux ./tester
+./run_linux ./tester | grep " - " | wc -l
+./run_linux ./tester_bonus
 ```
