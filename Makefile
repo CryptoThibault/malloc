@@ -40,7 +40,7 @@ clean:
 
 fclean: clean
 	rm -f $(TESTER)
-	rm -f $(TESTER)_thread
+	rm -f $(TESTER)_bonus
 	rm -f libft_malloc.so libft_malloc_*.so
 
 re: fclean all
