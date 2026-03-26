@@ -30,7 +30,7 @@ void *_realloc(void *ptr, size_t size)
     if (old_type == new_type && (old_type == TINY || old_type == SMALL)) {
         t_block *next = block->next;
         if (next && next->free && block->size + sizeof(t_block) + next->size >= size) {
-            block->size += sizeof(t_block) + next->size;
+            block->size = size;
             block->next = next->next;
             return ptr;
         }
